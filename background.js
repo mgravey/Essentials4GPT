@@ -7,3 +7,4 @@ import { initialize as frontModuleManagerInitialize } from './modules_bg/frontMo
 frontModuleManagerInitialize();
 actionButtonInitialize();
 // Call initialize for all other modules
+

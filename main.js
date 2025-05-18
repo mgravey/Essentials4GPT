@@ -6,6 +6,7 @@ let moules2Load = [
     'conversationHistoryEdit',
     'switchEnterBehavior',
     'switchPastBehavior',
+    'speech2TextManager'
 ];
 
 // Load all relevant settings from storage

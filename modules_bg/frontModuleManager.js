@@ -26,6 +26,8 @@ export function initialize() {
 	            addExpireDate: items.addExpireDate !== undefined ? items.addExpireDate : false,
 	            addNumberOfRequest: items.addNumberOfRequest !== undefined ? items.addNumberOfRequest : true,
 	            expireDateDefault:items.expireDateDefault !== undefined ? items.expireDateDefault : 7,
+	            shortcutS2T:items.shortcutS2T !== undefined ? items.shortcutS2T : "Shift+Alt+Space",
+	            speech2TextManager:items.speech2TextManager !== undefined ? items.speech2TextManager : true,
 	            eventForMode: true,
 	            modelsAvailable: items.modelsAvailable || [
 	                {slug: 'gpt-4', title: 'GPT-4 (All Tools)'},

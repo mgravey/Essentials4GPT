@@ -170,3 +170,26 @@ span.editHistoryButton {
 .hidden-3 .toHide-3{
     display: none;
 }
+
+.gpt-mic-recording {
+    animation: gpt-mic-pulse 1s infinite;
+    color: red !important;
+}
+
+@keyframes gpt-mic-pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.gpt-mic-processing {
+    animation: gpt-mic-rotateY 1.5s linear infinite;
+    color: orange !important;
+    transform-style: preserve-3d;
+}
+@keyframes gpt-mic-rotateY {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+}
+
+
