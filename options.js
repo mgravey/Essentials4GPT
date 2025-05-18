@@ -103,13 +103,4 @@ document.addEventListener('DOMContentLoaded', () => {
         saveSetting('switchPastBehavior', event.target.checked);
     });
 
-    // Add event listeners for the new features
-    document.getElementById('addExpireDate').addEventListener('change', (event) => {
-        saveSetting('addExpireDate', event.target.checked);
-        document.getElementById('expireDateDefault').disabled = !event.target.checked;
-    });
-
-    document.getElementById('expireDateDefault').addEventListener('input', (event) => {
-        saveSetting('expireDateDefault', parseInt(event.target.value, 10));
-    });
 });
