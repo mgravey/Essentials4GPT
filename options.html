@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Essentials4GPT Options</title>
+	<link rel="stylesheet" href="options.css">
+</head>
+<body>
+	<div class="header">
+		<img src="./icons/Essentials4GPT.png" alt="Essentials4GPT Logo" class="logo">
+		<h1>Essentials4GPT Options</h1>
+	</div>
+
+
+	<div class="option-group">
+		<h2>Simple Click Settings</h2>
+		<label for="simple-model">Select Model:</label>
+		<select id="simple-model">
+			<!-- Models will be dynamically populated here -->
+		</select>
+
+		<label class="switch small">
+			<input type="checkbox" id="simple-temporaryChat">
+			<span class="slider small round"></span>
+		</label> Enable Temporary Chat
+	</div>
+
+	<div class="option-group">
+		<h2>Double Click Settings</h2>
+		<label for="double-model">Select Model:</label>
+		<select id="double-model">
+			<!-- Models will be dynamically populated here -->
+		</select>
+
+		<label class="switch small">
+			<input type="checkbox" id="double-temporaryChat">
+			<span class="slider small round"></span>
+		</label> Enable Temporary Chat
+	</div>
+
+	<div class="option-group">
+		<h2><label class="switch">
+			<input type="checkbox" id="conversationHistoryEdit">
+			<span class="slider round"></span>
+		</label> History Editing</h2>
+		<p>Allow editing of history and archive or delete multiple conversations at once.</p>
+	</div>
+
+	<div class="option-group">
+		<h2><label class="switch">
+			<input type="checkbox" id="switchEnterBehavior">
+			<span class="slider round"></span>
+		</label> Keyboard Behavior</h2>
+		<p>Switch Enter and Shift+Enter behaviors. Pressing Enter will move to the next line and Shift+Enter will send the message.</p>
+	</div>
+
+	<div class="option-group">
+		<h2><label class="switch">
+			<input type="checkbox" id="switchPastBehavior">
+			<span class="slider round"></span>
+		</label> Clipboard Behavior</h2>
+		<p>Modify pasting behavior to avoid pasting text and images together from Word. Only text will be pasted if the clipboard contains text and images.</p>
+	</div>
+
+<div class="option-group">
+    <h2><label class="switch small">
+        <input type="checkbox" id="addExpireDate">
+        <span class="slider small round"></span>
+    </label> Enable Automatic Expiration</h2>
+    <p>Sets an automatic expiration date based on last activity. Conversations will be automatically deleted after the set number of days unless disabled or adjusted per conversation.</p>
+    <div style="display: flex; align-items: center;">
+        <label for="expireDateDefault" style="margin-right: 10px;">Default Expiration Days:</label>
+        <input type="number" id="expireDateDefault" value="30" min="1" disabled> <!-- Default set to 30 days, initially disabled -->
+    </div>
+</div>
+
+
+	<script src="options.js"></script>
+</body>
+</html>

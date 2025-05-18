@@ -1,0 +1,172 @@
+.navPanel {
+    transition: width 1s ease-in-out 0.6s;
+}
+
+.expanded {
+    width: 350px !important;
+    transition: width 1s ease-in-out;
+}
+
+.navPanel > div {
+    width:100%
+}
+
+span.editHistoryButton{
+    margin: -5px 0px -23px auto;
+    z-index: 50;
+    font-size: 20px;
+}
+
+span.editHistoryButton.inEdit{
+    opacity:0.3;
+}
+
+span.editHistoryButton {
+    transition: opacity 1s ease;
+}
+
+/* Initially hidden */
+#editMenu {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out 0.25s, opacity 0.3s ease-out 0.25s, margin-bottom 0.3s ease-out 0.25s;
+    margin-bottom: -0.5rem;
+}
+
+/* Visible state */
+#editMenu.deployed {
+    max-height: 60px; /* Large max-height to accommodate varying content size */
+    opacity: 1;
+    transition: max-height 0.5s ease-in 0.5s, opacity 0.5s ease-in 0.5s, margin-bottom 0.5s ease-in 0.5s;
+    margin-bottom: 0.5rem;
+}
+
+#editMenu.deployed > div{
+    padding: 1px 20px;
+}
+
+#editMenu.deployed > div:hover{
+    background-color: var(--sidebar-surface-secondary);
+}
+
+/* Circle appearance and peer-based styling */
+.checkbox-circle {
+  width: 0;
+  height: 0;
+  border-radius: 9999px;
+  background-color: white;
+  transition: width 0.5s ease-in, height 0.5s ease-in, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Animation to grow the circle */
+.animate-circle {
+  border: 2px solid #d1d5db;
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: width 0.5s ease, height 0.5s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Checked state */
+.peer-checked .checkbox-circle {
+  background-color: #3b82f6; /* Tailwind's blue-500 */
+}
+
+.selectBoxlabel{
+    margin-left:-.5rem
+}
+
+.peer-checked{
+    max-height:36px;
+    transition: max-height 0.3s ease;
+}
+
+.relative .removed{
+    max-height:0px;
+    overflow: hidden;
+}
+
+.progress-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.progress-circle {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.progress-value {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.progress-svg {
+  transform: rotate(180deg);
+  width: 100%;
+  height: 100%;
+}
+
+.progress-bg,
+.progress-bar {
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.progress-bg {
+  stroke: #eee;
+}
+
+.progress-bar {
+  stroke: #00f;
+  stroke-dasharray: 0, 100;
+  transition: stroke-dasharray 0.3s;
+}
+
+
+#time-unit{
+    background-color: var(--main-surface-tertiary);
+    border-block: none;
+    height: 1.5em;
+    padding: 0;
+    border-color: transparent;
+    border-block-width: 0;
+    background-image: none;
+    width: 4em;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#time-value{
+    background-color: var(--main-surface-tertiary);
+    border-block: none;
+    padding: 0;
+    padding-right: 0.1em;
+    height: 1.5em;
+    width: 3em;
+    text-align: right;
+    border-color: transparent;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.hidden-1 .toHide-1{
+    display: none;
+}
+
+.hidden-2 .toHide-2{
+    display: none;
+}
+
+.hidden-3 .toHide-3{
+    display: none;
+}

@@ -1,0 +1,10 @@
+{
+    "extensionName":
+    {
+        "message": "Essentials4GPT"
+    },
+    "extensionDescription":
+    {
+        "message": "Essentials4GPT is a minimalistic Chrome extension designed to deliver essential fixes and enhancements for ChatGPT. It adds a few critical features missing from the original, aiming to improve usability without adding unnecessary bloat. As the interface changes frequently, I’ll do my best to keep it updated, though full compatibility cannot be guaranteed."
+    }
+}
