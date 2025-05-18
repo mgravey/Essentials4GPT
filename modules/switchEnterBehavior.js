@@ -86,7 +86,7 @@ function setObserverOverMain4Subtree(){
 
 	// Create a MutationObserver instance
 	const observer = new MutationObserver((mutationsList, observer) => {
-		console.log(mutationsList);
+		//console.log(mutationsList);
 		for (let mutation of mutationsList) {
 			if (mutation.type === 'childList') {
 			// Check if a direct child has been added
