@@ -20,7 +20,7 @@ function updateModelDropdowns(models) {
     });
 
     // Load existing selections or default values
-    chrome.storage.local.get(['simpleClickDefaultChat', 'doubleClickDefaultChat'], (result) => {
+    chrome.storage.local.get(['simpleClickDefaultChat', 'doubleClickDefaultChat', 'shortcutS2T'], (result) => {
         if (result.simpleClickDefaultChat) {
             simpleModelDropdown.value = result.simpleClickDefaultChat.model;
             document.getElementById('simple-temporaryChat').checked = result.simpleClickDefaultChat.temporaryChat;
@@ -30,6 +30,8 @@ function updateModelDropdowns(models) {
             doubleModelDropdown.value = result.doubleClickDefaultChat.model;
             document.getElementById('double-temporaryChat').checked = result.doubleClickDefaultChat.temporaryChat;
         }
+
+        document.getElementById('shortcutS2T').value = result.shortcutS2T || 'Shift+Alt+Space';
     });
 }
 
@@ -81,13 +83,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Load settings for the new features
-    chrome.storage.local.get(['conversationHistoryEdit', 'switchEnterBehavior', 'switchPastBehavior','addExpireDate', 'expireDateDefault'], (result) => {
+    chrome.storage.local.get(['conversationHistoryEdit', 'switchEnterBehavior', 'switchPastBehavior','addExpireDate', 'expireDateDefault','speech2TextManager'], (result) => {
         document.getElementById('conversationHistoryEdit').checked = !!result.conversationHistoryEdit;
         document.getElementById('switchEnterBehavior').checked = !!result.switchEnterBehavior;
         document.getElementById('switchPastBehavior').checked = !!result.switchPastBehavior;
-        document.getElementById('addExpireDate').checked = !!result.addExpireDate;
-        document.getElementById('expireDateDefault').value = result.expireDateDefault || 30;
-        document.getElementById('expireDateDefault').disabled = !document.getElementById('addExpireDate').checked;
+        document.getElementById('speech2TextManager').checked = !!result.speech2TextManager;
     });
 
     // Add event listeners for the new features
@@ -102,5 +102,57 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('switchPastBehavior').addEventListener('change', (event) => {
         saveSetting('switchPastBehavior', event.target.checked);
     });
+
+    document.getElementById('switchPastBehavior').addEventListener('change', (event) => {
+        saveSetting('switchPastBehavior', event.target.checked);
+    });
+
+    document.getElementById('speech2TextManager').addEventListener('input', (event) => {
+        saveSetting('speech2TextManager', event.target.checked);
+    });
+
+    let capturing = false;
+
+    document.getElementById('captureShortcut').addEventListener('click', () => {
+        capturing = true;
+        //document.getElementById('shortcutHint').textContent = 'Press the shortcut keys...';
+        document.getElementById('shortcutS2T').value = '';
+    });
+
+    window.addEventListener('keydown', (e) => {
+        if (!capturing) return;
+
+        e.preventDefault();
+
+        const isModifier = ['Shift', 'Control', 'Alt', 'Meta'].includes(e.key);
+        if (isModifier) return; // wait for real key
+
+        let keys = [];
+        if (e.ctrlKey) keys.push('Ctrl');
+        if (e.shiftKey) keys.push('Shift');
+        if (e.altKey) keys.push('Alt');
+        if (e.metaKey) keys.push('Meta');
+
+        let mainKey = '';
+
+        if (['Space', 'Enter', 'Tab'].includes(e.code)) {
+            mainKey = e.code;
+        } else if (e.code.startsWith('Key') || e.code.startsWith('Digit')) {
+            mainKey = e.code; // e.g., KeyK, Digit1
+        } else {
+            mainKey = e.code;
+        }
+
+        keys.push(mainKey);
+
+        const shortcutStr = keys.join('+');
+        document.getElementById('shortcutS2T').value = shortcutStr;
+        saveSetting('shortcutS2T', shortcutStr);
+        //document.getElementById('shortcutHint').textContent = 'Shortcut set to: ' + shortcutStr;
+        capturing = false;
+    });
+
+
+
 
 });

@@ -63,6 +63,18 @@
 		<p>Modify pasting behavior to avoid pasting text and images together from Word. Only text will be pasted if the clipboard contains text and images.</p>
 	</div>
 
+	<div class="option-group">
+		<h2><label class="switch">
+			<input type="checkbox" id="speech2TextManager">
+			<span class="slider round"></span>
+		</label> Speech to text shortcut settings</h2>
+		<p>Set the shortcut used to activate voice transcription. (Only affects newly opened pages — reload the ChatGPT page if needed.)</p>
+		<label for="shortcutS2T">Voice Input Shortcut:</label>
+		<input type="text" id="shortcutS2T" readonly />
+		<button id="captureShortcut">Set</button>
+	</div>
+
+
 	<script src="options.js"></script>
 </body>
 </html>

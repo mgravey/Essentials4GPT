@@ -7,7 +7,9 @@ export function initialize() {
 	        'importMaterialsAndSymbole',
 	        'conversationHistoryEdit',
 	        'switchEnterBehavior',
-	        'switchPastBehavior'
+	        'switchPastBehavior',
+	        'speech2TextManager',
+	        'shortcutS2T'
 	    ], function(items) {
 	        const defaults = {
 	            doubleClickDefaultChat: items.doubleClickDefaultChat || {
@@ -23,9 +25,6 @@ export function initialize() {
 	            conversationHistoryEdit: items.conversationHistoryEdit !== undefined ? items.conversationHistoryEdit : true,
 	            switchEnterBehavior: items.switchEnterBehavior !== undefined ? items.switchEnterBehavior : true,
 	            switchPastBehavior: items.switchPastBehavior !== undefined ? items.switchPastBehavior : true,
-	            addExpireDate: items.addExpireDate !== undefined ? items.addExpireDate : false,
-	            addNumberOfRequest: items.addNumberOfRequest !== undefined ? items.addNumberOfRequest : true,
-	            expireDateDefault:items.expireDateDefault !== undefined ? items.expireDateDefault : 7,
 	            shortcutS2T:items.shortcutS2T !== undefined ? items.shortcutS2T : "Shift+Alt+Space",
 	            speech2TextManager:items.speech2TextManager !== undefined ? items.speech2TextManager : true,
 	            eventForMode: true,
