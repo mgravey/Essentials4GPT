@@ -25,6 +25,8 @@ function switchPromptEnterBehavior(textArea){
 				setTimeout(function(){
 					document.querySelector('button[data-testid="send-button"]').click();
 				},0)
+				event.preventDefault();
+				return;
 			}
 			if(event.isTrusted){
 				//event.stopImmediatePropagation(); // Handle Enter key press
