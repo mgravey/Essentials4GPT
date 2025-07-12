@@ -1,0 +1,195 @@
+/* Base variables */
+:root {
+    /* Light mode variables */
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --header-bg-color: #0056b3;
+    --option-group-bg: white;
+    --option-group-text: #333;
+    --slider-bg: #ccc;
+    --slider-active-bg: #2196F3;
+    --input-bg: white;
+    --input-border-color: #ccc;
+    --box-shadow-color: rgba(0,0,0,0.2);
+    --title-h2-color: #0056b3;
+}
+
+/* Dark mode variables */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #121212;
+        --text-color: #e0e0e0;
+        --header-bg-color: #0a3a82;
+        --option-group-bg: #333;
+        --option-group-text: #e0e0e0;
+        --slider-bg: #555;
+        --slider-active-bg: #0078D4;
+        --input-bg: #555;
+        --input-border-color: #777;
+        --box-shadow-color: rgba(255,255,255,0.1);
+        --title-h2-color: #006add;
+    }
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.header {
+    background-color: var(--header-bg-color);
+    color: white;
+    padding: 20px 40px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.logo {
+    height: 50px;
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+h1 {
+    display: inline;
+    vertical-align: middle;
+    font-size: 30px;
+}
+
+.option-group {
+    background-color: var(--option-group-bg);
+    color: var(--option-group-text);
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 600px;
+    box-shadow: 0 2px 5px var(--box-shadow-color);
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+
+/* Adjusting the vertical alignment for text to match the switch */
+h2 {
+    color: var(--title-h2-color);
+    margin: 0;
+    line-height: 32px;
+
+}
+
+label {
+    display: block;
+    font-size: 16px;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+}
+
+/* Switch styles */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 27px;
+    margin-right: 5px;
+}
+
+.switch.small {
+    width: 40px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--slider-bg);
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider.small {
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.small .slider:before {
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+}
+
+input:checked + .slider {
+    background-color: var(--slider-active-bg);
+}
+
+.small input:checked + .slider {
+    background-color: var(--slider-active-bg);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--slider-active-bg);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.small input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.option-group > div {
+    display: flex;
+    align-items: center;
+}
+
+.option-group input[type="number"] {
+    width: 40px; /* Restricts width to fit two-digit numbers */
+    margin-right: 10px; /* Provides spacing between the input and the label */
+    text-align: right;
+}
+
+.option-group label {
+    margin: 0; /* Adjust as needed depending on your design */
+}

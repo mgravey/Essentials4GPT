@@ -1,0 +1,69 @@
+---
+layout: default
+---
+<div class="header">
+    <img src="./icons/Essentials4GPT.png" alt="Essentials4GPT Logo" class="logo">
+    <h1>Essentials4GPT Options</h1>
+</div>
+
+
+<div class="option-group">
+    <h2>Simple Click Settings</h2>
+    <label for="simple-model">Select Model:</label>
+    <select id="simple-model">
+        <!-- Models will be dynamically populated here -->
+    </select>
+
+    <label class="switch small">
+        <input type="checkbox" id="simple-temporaryChat">
+        <span class="slider small round"></span>
+    </label> Enable Temporary Chat
+</div>
+
+<div class="option-group">
+    <h2>Double Click Settings</h2>
+    <label for="double-model">Select Model:</label>
+    <select id="double-model">
+        <!-- Models will be dynamically populated here -->
+    </select>
+
+    <label class="switch small">
+        <input type="checkbox" id="double-temporaryChat">
+        <span class="slider small round"></span>
+    </label> Enable Temporary Chat
+</div>
+
+<div class="option-group">
+    <h2><label class="switch">
+        <input type="checkbox" id="conversationHistoryEdit">
+        <span class="slider round"></span>
+    </label> History Editing</h2>
+    <p>Allow editing of history and archive or delete multiple conversations at once.</p>
+</div>
+
+<div class="option-group">
+    <h2><label class="switch">
+        <input type="checkbox" id="switchEnterBehavior">
+        <span class="slider round"></span>
+    </label> Keyboard Behavior</h2>
+    <p>Switch Enter and Shift+Enter behaviors. Pressing Enter will move to the next line and Shift+Enter will send the message.</p>
+</div>
+
+<div class="option-group">
+    <h2><label class="switch">
+        <input type="checkbox" id="switchPastBehavior">
+        <span class="slider round"></span>
+    </label> Clipboard Behavior</h2>
+    <p>Modify pasting behavior to avoid pasting text and images together from Word. Only text will be pasted if the clipboard contains text and images.</p>
+</div>
+
+<div class="option-group">
+    <h2><label class="switch">
+        <input type="checkbox" id="speech2TextManager">
+        <span class="slider round"></span>
+    </label> Speech to text shortcut settings</h2>
+    <p>Set the shortcut used to activate voice transcription. (Only affects newly opened pages — reload the ChatGPT page if needed.)</p>
+    <label for="shortcutS2T">Voice Input Shortcut:</label>
+    <input type="text" id="shortcutS2T" readonly />
+    <button id="captureShortcut">Set</button>
+</div>
