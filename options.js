@@ -103,10 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
         saveSetting('switchPastBehavior', event.target.checked);
     });
 
-    document.getElementById('switchPastBehavior').addEventListener('change', (event) => {
-        saveSetting('switchPastBehavior', event.target.checked);
-    });
-
     document.getElementById('speech2TextManager').addEventListener('input', (event) => {
         saveSetting('speech2TextManager', event.target.checked);
     });

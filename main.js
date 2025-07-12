@@ -42,7 +42,7 @@ window.addEventListener('getGPTaccessToken', function(event) {
     broadcastGPTaccessToken(GPTaccessToken);
 })
 
-// content.js
+
 window.addEventListener('message', function(event) {
 	if (event.origin !== "https://chatgpt.com") return;
 
