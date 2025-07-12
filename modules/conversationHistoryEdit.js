@@ -6,7 +6,7 @@ function toogleSelection(event)
 	event.stopPropagation(); // Stop the event from bubbling up
 
 	// Apply or remove peer-checked class for the animation
-	event.srcElement.closest('li').classList.toggle('peer-checked');
+	event.srcElement.closest('a').classList.toggle('peer-checked');
 }
 
 function addCheckboxToElement(element, enableAnimation = true) {
@@ -19,7 +19,7 @@ function addCheckboxToElement(element, enableAnimation = true) {
 
 	label.appendChild(circle);
 
-	const linkContainer = element.querySelector('a.flex.items-center.gap-2.p-2');
+	const linkContainer = element;//.querySelector('a.flex.items-center.gap-2.p-2');
 	//console.log(element.classList.contains("inEditMode"), linkContainer)
 	if ((!element.classList.contains("inEditMode")) && linkContainer && (!linkContainer.querySelector("label"))) {
 		// Insert the checkbox at the start of the link container
@@ -43,7 +43,7 @@ function addCheckboxToElement(element, enableAnimation = true) {
 
 function removeCheckboxFromElement(element) {
 	element.classList.remove("inEditMode")
-	const linkContainer = element.querySelector('a.flex.items-center.gap-2.p-2');
+	const linkContainer = element;
 
 	if (linkContainer) {
 		// Find the label containing the checkbox if it exists
@@ -67,8 +67,11 @@ function removeCheckboxFromElement(element) {
 let observer=null;
 
 function startEditMode(){
-	let navBarpanel=document.querySelector("nav").closest("div.bg-token-sidebar-surface-primary")
-	let conversationArray=document.querySelector("nav").querySelectorAll("li")
+
+	document.querySelector('#stage-slideover-sidebar').style.width="calc( var(--sidebar-width) * 1.35 )";
+	
+	let navBarpanel=document.querySelector("nav").closest("div")
+	let conversationArray=document.querySelector("#history").querySelectorAll("a")
 	navBarpanel.children[0].style.width="100%"
 	navBarpanel.classList.add("navPanel")
 	navBarpanel.classList.add("expanded")
@@ -78,10 +81,12 @@ function startEditMode(){
 
 	// Create a MutationObserver instance
 	observer = new MutationObserver((mutationsList) => {
+		console.log(mutationsList)
 		mutationsList.forEach((mutation) => {
+			console.log(mutation)
 			// Check if the mutation added nodes
 			if (mutation.addedNodes.length > 0) {
-				document.querySelector("nav").querySelectorAll("li").forEach(item => addCheckboxToElement(item,false));
+				document.querySelector("#history").querySelectorAll("a").forEach(item => addCheckboxToElement(item,false));
 			}
 		});
 	});
@@ -93,15 +98,16 @@ function startEditMode(){
 	};
 
 	// Start observing the target node
-	observer.observe(document.querySelector("nav").querySelector("li").parentNode.closest(".relative").parentNode, config);
+	observer.observe(document.querySelector("#history"), config);
 }
 
 function finishEditMode(){
-	let navBarpanel=document.querySelector("nav").closest("div.bg-token-sidebar-surface-primary")
-	let conversationArray=document.querySelector("nav").querySelectorAll("li")
+	let navBarpanel=document.querySelector("nav").closest("div")
+	let conversationArray=document.querySelector("#history").querySelectorAll("a")
 	navBarpanel.classList.remove("expanded")
 	document.querySelector("#editMenu").classList.remove('deployed');
 	document.querySelector("#editConversationHistoryButton").classList.remove("inEdit");
+	document.querySelector('#stage-slideover-sidebar').style.width="calc( var(--sidebar-width) )";
 	conversationArray.forEach(item => removeCheckboxFromElement(item));
 	if(observer){
 		observer.disconnect();
@@ -111,7 +117,7 @@ function finishEditMode(){
 
 function addEditMode(){
 	//console.log("addEditMode try")
-	let conversationHistoryHolder=document.querySelector("#history") ||null;
+	let conversationHistoryHolder=document.querySelector("#history aside h2") ||null;
 	if(!conversationHistoryHolder)
 	{
 		setTimeout(addEditMode,200);
@@ -178,7 +184,7 @@ function addEditMode(){
 		applyOnSelected("delete")
 	})
 	//console.log("addEditMode finish")
-	document.querySelector("#sidebar").append(editMenu);//, document.querySelector("#sidebar").lastElementChild);
+	document.querySelector("nav").append(editMenu);//, document.querySelector("#sidebar").lastElementChild);
 }
 
 function applyOnSelected(action){
@@ -189,7 +195,7 @@ function applyOnSelected(action){
 			payload=JSON.stringify({ is_archived:true})
 		if(action=="delete")
 			payload=JSON.stringify({ is_visible: false })
-		let coversationID=item.querySelector("a").href.split("/").slice(-1)[0];
+		let coversationID=item.href.split("/").slice(-1)[0];
 		//console.log(coversationID)
 		fetch('https://chatgpt.com/backend-api/conversation/'+coversationID,{
 			method: 'PATCH',
@@ -203,7 +209,7 @@ function applyOnSelected(action){
 		finishEditMode();
 	}
 
-	let selectedConversation=document.querySelector("nav").querySelectorAll("li.peer-checked");
+	let selectedConversation=document.querySelector("#history").querySelectorAll("a.peer-checked");
 	selectedConversation.forEach(item => doAction(item,action))
 }
 

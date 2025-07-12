@@ -1,5 +1,5 @@
 .navPanel {
-    transition: width 1s ease-in-out 0.6s;
+    transition: width 1s ease-in-out;
 }
 
 .expanded {
@@ -11,10 +11,17 @@
     width:100%
 }
 
+
+#stage-slideover-sidebar{
+    transition: width 1s ease-in-out;
+}
+
 span.editHistoryButton{
-    margin: -5px 0px -23px auto;
+/*    margin: -5px 0px -23px auto;
     z-index: 50;
-    font-size: 20px;
+    font-size: 20px;*/
+    right: 0;
+    position: absolute;
 }
 
 span.editHistoryButton.inEdit{
@@ -29,14 +36,14 @@ span.editHistoryButton {
 #editMenu {
     max-height: 0;
     opacity: 0;
-    overflow: hidden;
+    overflow: visible;
     transition: max-height 0.3s ease-out 0.25s, opacity 0.3s ease-out 0.25s, margin-bottom 0.3s ease-out 0.25s;
     margin-bottom: -0.5rem;
 }
 
 /* Visible state */
 #editMenu.deployed {
-    max-height: 60px; /* Large max-height to accommodate varying content size */
+    max-height: 60px;
     opacity: 1;
     transition: max-height 0.5s ease-in 0.5s, opacity 0.5s ease-in 0.5s, margin-bottom 0.5s ease-in 0.5s;
     margin-bottom: 0.5rem;
@@ -81,9 +88,10 @@ span.editHistoryButton {
     transition: max-height 0.3s ease;
 }
 
-.relative .removed{
+#history .removed{
     max-height:0px;
     overflow: hidden;
+    display:none;
 }
 
 .progress-container {
