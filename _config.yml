@@ -1,3 +1,8 @@
 theme: jekyll-theme-minimal
 title: Essentials4GPT
 description: Essentials4GPT is a browser extension that enhances the functionality of ChatGPT.
+
+collections:
+  features:
+    output: false
+    sort_by: title
