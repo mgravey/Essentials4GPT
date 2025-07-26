@@ -60,7 +60,39 @@ function setObserverOverMain(){
     observer.observe(mainElement, config);
 }
 
+function setObserverOverBody() {
+    // Select the <body> element
+    const bodyElement = document.body;
+
+    // Create a MutationObserver instance
+    const observer = new MutationObserver((mutationsList, observer) => {
+        for (let mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                mutation.addedNodes.forEach(node => {
+                    if (node.tagName === 'MAIN' || (node.querySelector && node.querySelector('main'))) {
+                        // Re-apply the observers after <main> is added/replaced
+                        setObserverOverMain();
+                        switchPromptPastBehavior();
+                    }
+                });
+            }
+        }
+    });
+
+    // Configure to watch only direct child additions/removals in <body>
+    const config = { childList: true };
+
+    // Start observing the <body> element
+    observer.observe(bodyElement, config);
+}
+
 export function initialize(){
-    setObserverOverMain();
-    switchPromptPastBehavior();
+    // Start by checking if <main> already exists and set observers
+    if (document.querySelector('main')) {
+        setObserverOverMain();
+        switchPromptPastBehavior();
+    }
+
+    // Always start the body observer to catch <main> refreshes
+    setObserverOverBody();
 }

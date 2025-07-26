@@ -83,12 +83,12 @@ function setObserverOverMain(){
 
 function setObserverOverMain4Subtree(){
 	// Select the <main> element
-	//console.log("setObserverOverMain4Subtree")
+	console.log("setObserverOverMain4Subtree")
 	const mainElement = document.querySelector('main');
 
 	// Create a MutationObserver instance
 	const observer = new MutationObserver((mutationsList, observer) => {
-		//console.log(mutationsList);
+		console.log(mutationsList);
 		for (let mutation of mutationsList) {
 			if (mutation.type === 'childList') {
 			// Check if a direct child has been added
@@ -110,8 +110,42 @@ function setObserverOverMain4Subtree(){
 	observer.observe(mainElement, config);
 }
 
+function setObserverOverBody() {
+	// Select the <body> element
+	const bodyElement = document.body;
+
+	// Create a MutationObserver instance
+	const observer = new MutationObserver((mutationsList, observer) => {
+		for (let mutation of mutationsList) {
+			if (mutation.type === 'childList') {
+				mutation.addedNodes.forEach(node => {
+					if (node.tagName === 'MAIN' || (node.querySelector && node.querySelector('main'))) {
+						// Re-apply the observers after <main> is added/replaced
+						setObserverOverMain();
+						switchPromptEnterBehavior();
+						setObserverOverMain4Subtree();
+					}
+				});
+			}
+		}
+	});
+
+	// Configure to watch only direct child additions/removals in <body>
+	const config = { childList: true };
+
+	// Start observing the <body> element
+	observer.observe(bodyElement, config);
+}
+
 export function initialize(){
-	setObserverOverMain();
-	switchPromptEnterBehavior();
-	setObserverOverMain4Subtree();
+
+	// Start by checking if <main> already exists and set observers
+	if (document.querySelector('main')) {
+		setObserverOverMain();
+		switchPromptEnterBehavior();
+		setObserverOverMain4Subtree();
+	}
+
+	// Always start the body observer to catch <main> refreshes
+	setObserverOverBody();
 }
