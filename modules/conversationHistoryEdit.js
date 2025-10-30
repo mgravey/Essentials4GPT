@@ -116,8 +116,8 @@ function finishEditMode(){
 }
 
 function addEditMode(){
-	//console.log("addEditMode try")
-	let conversationHistoryHolder=document.querySelector("#history aside h2") ||null;
+	console.log("addEditMode try")
+	let conversationHistoryHolder=document.querySelector("#history") ||null;
 	if(!conversationHistoryHolder)
 	{
 		setTimeout(addEditMode,200);
@@ -132,16 +132,17 @@ function addEditMode(){
 	span.textContent = 'edit';
 	span.id = 'editConversationHistoryButton';
 
-	span.addEventListener("click",function(){
+	span.addEventListener("click",function(e){
 		if(span.classList.contains("inEdit")){
 			finishEditMode();
 		}else{
 			span.classList.add("inEdit");
 			startEditMode();
 		}
+		e.stopPropagation();
 	})
 
-	conversationHistoryHolder.insertBefore(span,conversationHistoryHolder.firstChild);
+	conversationHistoryHolder.parentElement.firstChild.append(span);
 
 	let editMenu = document.createElement('div');
 	editMenu.className = 'flex flex-row pt-2 sticky justify-around bg-token-bg-elevated-secondary bottom-0 z-100 ';
