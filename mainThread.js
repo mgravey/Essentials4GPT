@@ -1,13 +1,9 @@
 // mainThread.js
 
 function getAccessToken() {
-    const key = Object.keys(document).find(k => k.startsWith("__reactContainer$"));
-    if (!key) {
-        console.log("React container key not found");
-        return null;
-    }
-
-    return document[key]?.child?.child?.child?.child?.stateNode?.props?.children?.props?.router?.state?.loaderData?.root.clientBootstrap?.session?.accessToken || null;
+    return JSON.parse(
+        document.getElementById("client-bootstrap").textContent
+    ).session.accessToken || null;
 }
 
 
