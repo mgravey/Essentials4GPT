@@ -1,6 +1,6 @@
 // main.js
 
-let moules2Load = [
+let modulesToLoad = [
     'modelUpdate',
     'importMaterialsAndSymbole',
     'conversationHistoryEdit',
@@ -10,17 +10,17 @@ let moules2Load = [
 ];
 
 // Load all relevant settings from storage
-chrome.storage.local.get(moules2Load, function(items) {
-    for (let i = 0; i < moules2Load.length; i++) {
-        const moduleName = moules2Load[i];
-        
+chrome.storage.local.get(modulesToLoad, function (items) {
+    for (let i = 0; i < modulesToLoad.length; i++) {
+        const moduleName = modulesToLoad[i];
+
         // Check if the module is enabled (i.e., true) before loading
         if (items[moduleName]) {
             import('./modules/' + moduleName + '.js')
                 .then(module => {
                     if (module.initialize) {
                         module.initialize();
-                        console.log(moduleName)
+                        //console.log(moduleName)
                     }
                 })
                 .catch(err => {
@@ -30,33 +30,33 @@ chrome.storage.local.get(moules2Load, function(items) {
     }
 });
 
-GPTaccessToken=null;
+let GPTaccessToken = null;
 
-function broadcastGPTaccessToken(token){
+function broadcastGPTaccessToken(token) {
     window.dispatchEvent(new CustomEvent('GPTaccessTokenEvent', {
-        detail:token
+        detail: token
     }));
 }
 
-window.addEventListener('getGPTaccessToken', function(event) {
+window.addEventListener('getGPTaccessToken', function (event) {
     broadcastGPTaccessToken(GPTaccessToken);
 })
 
 
-window.addEventListener('message', function(event) {
-	if (event.origin !== "https://chatgpt.com") return;
+window.addEventListener('message', function (event) {
+    if (event.origin !== "https://chatgpt.com") return;
 
-	if (event.data.type === 'GPTaccessToken') {
-        GPTaccessToken=event.data.message;
-		setTimeout(function(){
-			broadcastGPTaccessToken(event.data.message)
-		},100)
-	}
+    if (event.data.type === 'GPTaccessToken') {
+        GPTaccessToken = event.data.message;
+        setTimeout(function () {
+            broadcastGPTaccessToken(event.data.message)
+        }, 100)
+    }
 
-	if (event.data.type === 'newLocation') {
-		window.dispatchEvent(new CustomEvent('newLocationEvent', {
-			detail:event.data.message
-		}));
-	}
+    if (event.data.type === 'newLocation') {
+        window.dispatchEvent(new CustomEvent('newLocationEvent', {
+            detail: event.data.message
+        }));
+    }
 });
 

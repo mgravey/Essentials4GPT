@@ -1,7 +1,6 @@
 let accessToken;
 
-function toogleSelection(event) 
-{
+function toggleSelection(event) {
 	event.preventDefault(); // Prevent the default action
 	event.stopPropagation(); // Stop the event from bubbling up
 
@@ -36,7 +35,7 @@ function addCheckboxToElement(element, enableAnimation = true) {
 		}
 
 		// Optional: Prevent any click on the link container from propagating
-		linkContainer.addEventListener('click', toogleSelection);
+		linkContainer.addEventListener('click', toggleSelection);
 		element.classList.add("inEditMode")
 	}
 }
@@ -56,23 +55,23 @@ function removeCheckboxFromElement(element) {
 			// Wait for the animation to complete before removing the label
 			setTimeout(() => {
 				label.remove();
-				
-				linkContainer.removeEventListener('click', toogleSelection);;
+
+				linkContainer.removeEventListener('click', toggleSelection);;
 				element.classList.remove('peer-checked');
 			}, 500); // Match the timeout duration with the CSS transition duration
 		}
 	}
 }
 
-let observer=null;
+let observer = null;
 
-function startEditMode(){
+function startEditMode() {
 
-	document.querySelector('#stage-slideover-sidebar').style.width="calc( var(--sidebar-width) * 1.35 )";
-	
-	let navBarpanel=document.querySelector("nav").closest("div")
-	let conversationArray=document.querySelector("#history").querySelectorAll("a")
-	navBarpanel.children[0].style.width="100%"
+	document.querySelector('#stage-slideover-sidebar').style.width = "calc( var(--sidebar-width) * 1.35 )";
+
+	let navBarpanel = document.querySelector("nav").closest("div")
+	let conversationArray = document.querySelector("#history").querySelectorAll("a")
+	navBarpanel.children[0].style.width = "100%"
 	navBarpanel.classList.add("navPanel")
 	navBarpanel.classList.add("expanded")
 	// Toggle the 'deployed' class
@@ -81,12 +80,12 @@ function startEditMode(){
 
 	// Create a MutationObserver instance
 	observer = new MutationObserver((mutationsList) => {
-		console.log(mutationsList)
+		//console.log(mutationsList)
 		mutationsList.forEach((mutation) => {
-			console.log(mutation)
+			//console.log(mutation)
 			// Check if the mutation added nodes
 			if (mutation.addedNodes.length > 0) {
-				document.querySelector("#history").querySelectorAll("a").forEach(item => addCheckboxToElement(item,false));
+				document.querySelector("#history").querySelectorAll("a").forEach(item => addCheckboxToElement(item, false));
 			}
 		});
 	});
@@ -101,30 +100,29 @@ function startEditMode(){
 	observer.observe(document.querySelector("#history"), config);
 }
 
-function finishEditMode(){
-	let navBarpanel=document.querySelector("nav").closest("div")
-	let conversationArray=document.querySelector("#history").querySelectorAll("a")
+function finishEditMode() {
+	let navBarpanel = document.querySelector("nav").closest("div")
+	let conversationArray = document.querySelector("#history").querySelectorAll("a")
 	navBarpanel.classList.remove("expanded")
 	document.querySelector("#editMenu").classList.remove('deployed');
 	document.querySelector("#editConversationHistoryButton").classList.remove("inEdit");
-	document.querySelector('#stage-slideover-sidebar').style.width="calc( var(--sidebar-width) )";
+	document.querySelector('#stage-slideover-sidebar').style.width = "calc( var(--sidebar-width) )";
 	conversationArray.forEach(item => removeCheckboxFromElement(item));
-	if(observer){
+	if (observer) {
 		observer.disconnect();
-		observer=null;
+		observer = null;
 	}
 }
 
-function addEditMode(){
-	console.log("addEditMode try")
-	let conversationHistoryHolder=document.querySelector("#history") ||null;
-	if(!conversationHistoryHolder)
-	{
-		setTimeout(addEditMode,200);
+function addEditMode() {
+	//console.log("addEditMode try")
+	let conversationHistoryHolder = document.querySelector("#history") || null;
+	if (!conversationHistoryHolder) {
+		setTimeout(addEditMode, 200);
 		return;
 	}
 
-	if(document.querySelector("#editMenu"))
+	if (document.querySelector("#editMenu"))
 		return;
 	//console.log("addEditMode start")
 	const span = document.createElement('span');
@@ -132,10 +130,10 @@ function addEditMode(){
 	span.textContent = 'edit';
 	span.id = 'editConversationHistoryButton';
 
-	span.addEventListener("click",function(e){
-		if(span.classList.contains("inEdit")){
+	span.addEventListener("click", function (e) {
+		if (span.classList.contains("inEdit")) {
 			finishEditMode();
-		}else{
+		} else {
 			span.classList.add("inEdit");
 			startEditMode();
 		}
@@ -176,33 +174,33 @@ function addEditMode(){
 	editMenu.appendChild(archiveButton);
 	editMenu.appendChild(cancelButton);
 	editMenu.appendChild(deleteButton);
-	cancelButton.addEventListener("click",finishEditMode)
+	cancelButton.addEventListener("click", finishEditMode)
 
-	archiveButton.addEventListener("click",function(){
+	archiveButton.addEventListener("click", function () {
 		applyOnSelected("archive")
 	})
-	deleteButton.addEventListener("click",function(){
+	deleteButton.addEventListener("click", function () {
 		applyOnSelected("delete")
 	})
 	//console.log("addEditMode finish")
 	document.querySelector("nav").append(editMenu);//, document.querySelector("#sidebar").lastElementChild);
 }
 
-function applyOnSelected(action){
+function applyOnSelected(action) {
 
-	function doAction(item,action){
-		let payload=null;
-		if(action=="archive")
-			payload=JSON.stringify({ is_archived:true})
-		if(action=="delete")
-			payload=JSON.stringify({ is_visible: false })
-		let coversationID=item.href.split("/").slice(-1)[0];
-		//console.log(coversationID)
-		fetch('https://chatgpt.com/backend-api/conversation/'+coversationID,{
+	function doAction(item, action) {
+		let payload = null;
+		if (action == "archive")
+			payload = JSON.stringify({ is_archived: true })
+		if (action == "delete")
+			payload = JSON.stringify({ is_visible: false })
+		let conversationID = item.href.split("/").slice(-1)[0];
+		//console.log(conversationID)
+		fetch('https://chatgpt.com/backend-api/conversation/' + conversationID, {
 			method: 'PATCH',
-			headers:{
-				Authorization:"Bearer "+accessToken,
-				'Content-Type': 'application/json' 
+			headers: {
+				Authorization: "Bearer " + accessToken,
+				'Content-Type': 'application/json'
 			},
 			body: payload
 		})
@@ -210,15 +208,15 @@ function applyOnSelected(action){
 		finishEditMode();
 	}
 
-	let selectedConversation=document.querySelector("#history").querySelectorAll("a.peer-checked");
-	selectedConversation.forEach(item => doAction(item,action))
+	let selectedConversation = document.querySelector("#history").querySelectorAll("a.peer-checked");
+	selectedConversation.forEach(item => doAction(item, action))
 }
 
-export function initialize(){
+export function initialize() {
 	addEditMode();
-	
-	window.addEventListener('GPTaccessTokenEvent', function(event) {
-		accessToken=event.detail;
+
+	window.addEventListener('GPTaccessTokenEvent', function (event) {
+		accessToken = event.detail;
 	});
 
 }
