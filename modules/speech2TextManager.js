@@ -8,20 +8,36 @@ let sequence = 0, results = {}, lastRendered = -1;
 let output = null;
 
 function handleKeyDown(e) {
-	if (matchesShortcut(e)){
+	if (matchesShortcut(e)) {
 		e.preventDefault()
-		if(!isRecording) {
+		if (!isRecording) {
 			startRecording();
 			isRecording = true;
 		}
 	}
 }
 
+function isKeyPartOfShortcut(e) {
+	if (!userShortcut) return false;
+
+	// Check the physical key code (e.g., 'Space')
+	if (e.code === userShortcut.code) return true;
+
+	// Check modifiers by key name on release
+	const key = e.key;
+	if (key === 'Control' && userShortcut.ctrl) return true;
+	if (key === 'Alt' && userShortcut.alt) return true;
+	if (key === 'Shift' && userShortcut.shift) return true;
+	if (['Meta', 'OS', 'Command'].includes(key) && userShortcut.meta) return true;
+
+	return false;
+}
+
 function handleKeyUp(e) {
-	if (matchesShortcut(e) && isRecording) {
+	if (isRecording && isKeyPartOfShortcut(e)) {
 		stopRecording();
 		isRecording = false;
-		e.preventDefault()
+		e.preventDefault();
 	}
 }
 
@@ -32,7 +48,7 @@ function parseShortcutString(str) {
 		shift: parts.includes('Shift'),
 		alt: parts.includes('Alt'),
 		meta: parts.includes('Meta') || parts.includes('Cmd') || parts.includes('Command'),
-		code: parts.find(p => 
+		code: parts.find(p =>
 			['Space', 'Enter', 'Tab'].includes(p) || p.length === 1 || p.startsWith('Key')
 		) || ''
 	};
@@ -48,7 +64,7 @@ function matchesShortcut(e) {
 }
 
 function startRecording() {
-	
+
 	navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
 		let mediaStream = stream;
 		const mimeType = MediaRecorder.isTypeSupported('audio/mp3') ? 'audio/mp3' : 'audio/webm';
@@ -78,7 +94,7 @@ function stopRecording() {
 function handleAudioBlob(audioBlob) {
 	const seq = sequence++;
 
-		// Download recorded audio for debugging
+	// Download recorded audio for debugging
 	// const a = document.createElement('a');
 	// a.href = URL.createObjectURL(audioBlob);
 	// a.download = 'recording.mp3';
@@ -104,8 +120,7 @@ function tryRenderResults() {
 
 function appendTextToOutput(text) {
 	const success = document.execCommand('insertText', false, text);
-	if(!success)
-	{
+	if (!success) {
 		if (confirm("Insert failed.\nDo you want to copy the text to the clipboard instead?")) {
 			navigator.clipboard.writeText(text);
 		}
@@ -154,8 +169,14 @@ export function initialize() {
 
 	document.addEventListener('keydown', handleKeyDown);
 	document.addEventListener('keyup', handleKeyUp);
+	window.addEventListener('blur', () => {
+		if (isRecording) {
+			stopRecording();
+			isRecording = false;
+		}
+	});
 
-	window.addEventListener('GPTaccessTokenEvent', function(event) {
+	window.addEventListener('GPTaccessTokenEvent', function (event) {
 		accessToken = event.detail;
 	});
 }
