@@ -1,41 +1,44 @@
 export function initialize() {
-	chrome.runtime.onInstalled.addListener(function() {
-	    chrome.storage.local.get([
-	        'doubleClickDefaultChat', 
-	        'simpleClickDefaultChat', 
-	        'modelUpdate',
-	        'importMaterialsAndSymbole',
-	        'conversationHistoryEdit',
-	        'switchEnterBehavior',
-	        'switchPastBehavior',
-	        'speech2TextManager',
-	        'shortcutS2T'
-	    ], function(items) {
-	        const defaults = {
-	            doubleClickDefaultChat: items.doubleClickDefaultChat || {
-	                temporaryChat: true,
-	                //model: "gpt-4o"
-	            },
-	            simpleClickDefaultChat: items.simpleClickDefaultChat || {
-	                temporaryChat: false,
-	                //model: "gpt-4o"
-	            },
-	            modelUpdate: items.modelUpdate !== undefined ? items.modelUpdate : true,
-	            importMaterialsAndSymbole: items.importMaterialsAndSymbole !== undefined ? items.importMaterialsAndSymbole : true,
-	            conversationHistoryEdit: items.conversationHistoryEdit !== undefined ? items.conversationHistoryEdit : true,
-	            switchEnterBehavior: items.switchEnterBehavior !== undefined ? items.switchEnterBehavior : true,
-	            switchPastBehavior: items.switchPastBehavior !== undefined ? items.switchPastBehavior : true,
-	            shortcutS2T:items.shortcutS2T !== undefined ? items.shortcutS2T : "Shift+Alt+Space",
-	            speech2TextManager:items.speech2TextManager !== undefined ? items.speech2TextManager : true,
-	            eventForMode: true,
-	            modelsAvailable: items.modelsAvailable || [
-	                {slug: 'gpt-4', title: 'GPT-4 (All Tools)'},
-	                {slug: 'gpt-4o', title: 'GPT-4o'},
-	                {slug: 'gpt-4o-mini', title: 'GPT-4o mini'}
-	            ]
-	        };
-	        chrome.storage.local.set(defaults);
-	    });
+	chrome.runtime.onInstalled.addListener(function () {
+		chrome.storage.local.get([
+			'doubleClickDefaultChat',
+			'simpleClickDefaultChat',
+			'modelUpdate',
+			'importMaterialsAndSymbole',
+			'conversationHistoryEdit',
+			'switchEnterBehavior',
+			'switchPastBehavior',
+			'speech2TextManager',
+			'modelSwitcherUI',
+			'shortcutS2T'
+		], function (items) {
+			const defaults = {
+				doubleClickDefaultChat: items.doubleClickDefaultChat || {
+					temporaryChat: true,
+					model: "gpt-5-2-instant"
+				},
+				simpleClickDefaultChat: items.simpleClickDefaultChat || {
+					temporaryChat: false,
+					model: "gpt-5-2"
+				},
+				modelUpdate: items.modelUpdate !== undefined ? items.modelUpdate : true,
+				importMaterialsAndSymbole: items.importMaterialsAndSymbole !== undefined ? items.importMaterialsAndSymbole : true,
+				conversationHistoryEdit: items.conversationHistoryEdit !== undefined ? items.conversationHistoryEdit : true,
+				switchEnterBehavior: items.switchEnterBehavior !== undefined ? items.switchEnterBehavior : true,
+				switchPastBehavior: items.switchPastBehavior !== undefined ? items.switchPastBehavior : true,
+				shortcutS2T: items.shortcutS2T !== undefined ? items.shortcutS2T : "Shift+Alt+Space",
+				speech2TextManager: items.speech2TextManager !== undefined ? items.speech2TextManager : true,
+				modelSwitcherUI: items.modelSwitcherUI !== undefined ? items.modelSwitcherUI : true,
+				eventForMode: true,
+				modelsAvailable: items.modelsAvailable || [
+					{ slug: 'gpt-5-2', title: 'GPT-5.2' },
+					{ slug: 'gpt-5-2-instant', title: 'GPT-5.2 Instant' },
+					{ slug: 'gpt-4o', title: 'GPT-4o' },
+					{ slug: 'gpt-4o-mini', title: 'GPT-4o mini' }
+				]
+			};
+			chrome.storage.local.set(defaults);
+		});
 	});
 
 	chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

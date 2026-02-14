@@ -1,35 +1,29 @@
 
-function executeActionDoubleClick() {
-    chrome.storage.local.get("doubleClickDefaultChat", (result) => {
-        let param = result["doubleClickDefaultChat"];
+async function executeAction(settingKey) {
+    chrome.storage.local.get(settingKey, (result) => {
+        const param = result[settingKey];
+        if (!param) return;
+
         let arg = "";
-        if (param?.temporaryChat) {
-            arg += "&temporary-chat=true";
-        }
-        if (param?.model) {
-            arg += "&model=" + param.model;
-        }
+        if (param.temporaryChat) arg += (arg ? "&" : "") + "temporary-chat=true";
+        if (param.model) arg += (arg ? "&" : "") + "model=" + param.model;
+
+        // Always open a new tab as per user request
         chrome.tabs.create({ url: "https://chatgpt.com/?" + arg });
     });
 }
 
+function executeActionDoubleClick() {
+    executeAction("doubleClickDefaultChat");
+}
+
 function executeActionSimpleClick() {
-    chrome.storage.local.get("simpleClickDefaultChat", (result) => {
-        let param = result["simpleClickDefaultChat"];
-        let arg = "";
-        if (param?.temporaryChat) {
-            arg += "&temporary-chat=true";
-        }
-        if (param?.model) {
-            arg += "&model=" + param.model;
-        }
-        chrome.tabs.create({ url: "https://chatgpt.com/?" + arg });
-    });
+    executeAction("simpleClickDefaultChat");
 }
 
 export function initialize() {
     let clickCount = 0;
-    let clickTimeout=null;
+    let clickTimeout = null;
     chrome.action.onClicked.addListener(() => {
         clickCount++;
         if (clickCount === 1) {
