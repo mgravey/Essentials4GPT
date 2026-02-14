@@ -21,15 +21,20 @@ function switchPromptEnterBehavior(textArea) {
 		return;
 	textArea.addEventListener('keydown', function (event) {
 		if (event.key === 'Enter') {
-			if (event.shiftKey && event.isTrusted) {
+			const isModKey = (navigator.platform.toUpperCase().indexOf('MAC') >= 0) ? event.metaKey : event.ctrlKey;
+
+			if (isModKey && event.isTrusted) {
+				// Send message on Cmd+Enter (Mac) or Ctrl+Enter (Windows)
 				setTimeout(function () {
-					document.querySelector('button[data-testid="send-button"]').click();
+					const sendButton = document.querySelector('button[data-testid="send-button"]');
+					if (sendButton) sendButton.click();
 				}, 0)
 				event.preventDefault();
 				return;
 			}
-			if (event.isTrusted) {
-				//event.stopImmediatePropagation(); // Handle Enter key press
+
+			if (!event.shiftKey && event.isTrusted) {
+				// For regular Enter, prevent default and send Shift+Enter to force newline
 				event.preventDefault();
 				textArea.dispatchEvent(new KeyboardEvent('keydown', {
 					key: 'Enter',
@@ -38,10 +43,11 @@ function switchPromptEnterBehavior(textArea) {
 					keyCode: 13,
 					which: 13,
 					bubbles: true,
-					cancelable: false,
-					detail: "test"
+					cancelable: false
 				}));
 			}
+
+			// Shift+Enter will fall through and do the default newline behavior
 		}
 	}, true);
 	add2AndCleanAreaNodeList(textArea);
@@ -50,8 +56,10 @@ function switchPromptEnterBehavior(textArea) {
 function addEnterForEdit(node, container) {
 	//console.log("addEnterForEdit")
 	node.addEventListener('keydown', function (event) {
-		if (event.key === 'Enter' && event.shiftKey) {
-			container.querySelector('button.btn-primary').click();
+		const isModKey = (navigator.platform.toUpperCase().indexOf('MAC') >= 0) ? event.metaKey : event.ctrlKey;
+		if (event.key === 'Enter' && isModKey) {
+			const saveButton = container.querySelector('button.btn-primary');
+			if (saveButton) saveButton.click();
 		}
 	})
 }
